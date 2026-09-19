@@ -236,4 +236,47 @@ class PendaftaranTest extends TestCase
             'stok' => ['S' => 1, 'M' => 1, 'L' => 1, 'XL' => 1, 'XXL' => 1],
         ])->assertSessionHasErrors('link_grup_wa');
     }
+
+    public function test_admin_dapat_menghapus_peserta_terpilih(): void
+    {
+        $this->post(route('pendaftaran.store'), $this->dataPeserta());
+        $this->post(route('pendaftaran.store'), $this->dataPeserta(['nama_lengkap' => 'Budi', 'ukuran_jersey' => 'L']));
+
+        $target = Peserta::first();
+        $admin = User::factory()->create();
+
+        $this->actingAs($admin)->get(route('admin.peserta.index'))->assertOk()->assertSee('Hapus Semua Data');
+        $this->actingAs($admin)->get(route('admin.peserta.show', $target))->assertOk()->assertSee('Hapus Data Peserta');
+
+        $this->actingAs($admin)
+            ->delete(route('admin.peserta.hapus-terpilih'), ['ids' => [$target->id]])
+            ->assertRedirect();
+
+        $this->assertSame(1, Peserta::count());
+        $this->assertNull(Peserta::find($target->id));
+    }
+
+    public function test_hapus_semua_butuh_konfirmasi_yang_benar(): void
+    {
+        $this->post(route('pendaftaran.store'), $this->dataPeserta());
+        $admin = User::factory()->create();
+
+        $this->actingAs($admin)
+            ->delete(route('admin.peserta.hapus-semua'), ['konfirmasi' => 'hapus'])
+            ->assertSessionHasErrors('konfirmasi');
+
+        $this->assertSame(1, Peserta::count());
+
+        $this->actingAs($admin)
+            ->delete(route('admin.peserta.hapus-semua'), ['konfirmasi' => 'HAPUS SEMUA'])
+            ->assertRedirect(route('admin.peserta.index'));
+
+        $this->assertSame(0, Peserta::count());
+    }
+
+    public function test_hapus_massal_butuh_login_admin(): void
+    {
+        $this->delete(route('admin.peserta.hapus-terpilih'), ['ids' => [1]])->assertRedirect(route('admin.login'));
+        $this->delete(route('admin.peserta.hapus-semua'), ['konfirmasi' => 'HAPUS SEMUA'])->assertRedirect(route('admin.login'));
+    }
 }

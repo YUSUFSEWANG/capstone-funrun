@@ -85,6 +85,32 @@ class PesertaController extends Controller
         return redirect()->route('admin.peserta.index')->with('sukses', 'Data peserta dihapus.');
     }
 
+    public function hapusTerpilih(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ], [], ['ids' => 'peserta yang dipilih']);
+
+        $jumlah = Peserta::whereIn('id', $data['ids'])->delete();
+
+        return back()->with('sukses', $jumlah . ' data peserta berhasil dihapus.');
+    }
+
+    public function hapusSemua(Request $request): RedirectResponse
+    {
+        $request->validate(
+            ['konfirmasi' => ['required', 'in:HAPUS SEMUA']],
+            ['konfirmasi.in' => 'Konfirmasi tidak sesuai, data tidak jadi dihapus.']
+        );
+
+        $jumlah = Peserta::count();
+        Peserta::query()->delete();
+
+        return redirect()->route('admin.peserta.index')
+            ->with('sukses', 'Seluruh data peserta (' . $jumlah . ') telah dihapus. Nomor BIB kembali mulai dari 1001.');
+    }
+
     public function export(Request $request): StreamedResponse
     {
         $peserta = $this->kueri($request)->with('pembayaran')->get();

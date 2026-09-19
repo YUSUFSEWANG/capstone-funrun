@@ -83,12 +83,15 @@
                 <h3 class="text-lg text-navy-700">Tindakan</h3>
 
                 @if ($peserta->status !== 'terverifikasi')
-                    <form method="POST" action="{{ route('admin.peserta.verifikasi', $peserta) }}"
-                          onsubmit="return confirm('Verifikasi pembayaran peserta ini?')">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="btn w-full bg-emerald-500 text-white hover:bg-emerald-600">Verifikasi Pembayaran</button>
-                    </form>
+                    <x-konfirmasi
+                        judul="Verifikasi Pembayaran"
+                        pesan="Pendaftaran {{ $peserta->nama_lengkap }} akan ditandai lunas dan e-ticket peserta menjadi aktif."
+                        label="Verifikasi Pembayaran"
+                        kelas-tombol="btn w-full bg-emerald-500 text-white hover:bg-emerald-600"
+                        kelas-konfirmasi="btn bg-emerald-500 text-white hover:bg-emerald-600"
+                        label-konfirmasi="Ya, Verifikasi"
+                        method="PATCH"
+                        :aksi="route('admin.peserta.verifikasi', $peserta)" />
                 @endif
 
                 <form method="POST" action="{{ route('admin.peserta.tolak', $peserta) }}" class="space-y-2">
@@ -103,12 +106,12 @@
                 <a href="https://wa.me/{{ $peserta->wa_number }}?text={{ rawurlencode($pesanWa) }}" target="_blank" rel="noopener"
                    class="btn w-full bg-emerald-600 text-white hover:bg-emerald-700">Kirim Notifikasi WhatsApp</a>
 
-                <form method="POST" action="{{ route('admin.peserta.destroy', $peserta) }}"
-                      onsubmit="return confirm('Hapus data peserta ini secara permanen?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="w-full rounded-full px-6 py-2 text-sm font-semibold text-merah-600 hover:bg-merah-500/10">Hapus Data Peserta</button>
-                </form>
+                <x-konfirmasi
+                    judul="Hapus Data Peserta"
+                    pesan="Data {{ $peserta->nama_lengkap }} beserta bukti pembayarannya akan dihapus permanen dan tidak dapat dikembalikan."
+                    label="Hapus Data Peserta"
+                    kelas-tombol="w-full rounded-full px-6 py-2 text-sm font-semibold text-merah-600 hover:bg-merah-500/10"
+                    :aksi="route('admin.peserta.destroy', $peserta)" />
             </div>
         </div>
     </div>

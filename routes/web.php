@@ -42,6 +42,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('peserta', [PesertaController::class, 'index'])->name('peserta.index');
         Route::get('peserta/export', [PesertaController::class, 'export'])->name('peserta.export');
+        Route::delete('peserta-terpilih', [PesertaController::class, 'hapusTerpilih'])->name('peserta.hapus-terpilih');
+        Route::delete('peserta-semua', [PesertaController::class, 'hapusSemua'])->name('peserta.hapus-semua');
         Route::get('peserta/{peserta}', [PesertaController::class, 'show'])->name('peserta.show');
         Route::get('peserta/{peserta}/bukti', [PesertaController::class, 'bukti'])->name('peserta.bukti');
         Route::patch('peserta/{peserta}/verifikasi', [PesertaController::class, 'verifikasi'])->name('peserta.verifikasi');
