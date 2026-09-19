@@ -36,14 +36,6 @@ return [
             'throw' => false,
         ],
 
-        // Bukti pembayaran: tidak dapat diakses langsung dari browser.
-        'private' => [
-            'driver' => 'local',
-            'root' => storage_path('app/private'),
-            'visibility' => 'private',
-            'throw' => false,
-        ],
-
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

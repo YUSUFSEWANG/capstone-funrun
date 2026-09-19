@@ -24,8 +24,6 @@
         "SESSION_DRIVER": "cookie",
         "QUEUE_CONNECTION": "sync",
         "LOG_CHANNEL": "stderr",
-        "FILESYSTEM_DISK": "s3",
-        "DISK_BUKTI": "s3",
         "UPLOAD_MAX_KB": "4096"
     }
 }

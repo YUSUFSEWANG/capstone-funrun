@@ -18,8 +18,14 @@ return new class extends Migration
             $table->string('bank_pengirim', 60)->nullable();
             $table->unsignedInteger('nominal');
             $table->date('tanggal_transfer');
-            $table->string('file_bukti');
+            $table->string('file_nama', 160);
+            $table->string('file_mime', 100);
+            $table->unsignedInteger('file_ukuran');
+            // Isi berkas disimpan base64 (MEDIUMTEXT 16 MB) agar tidak butuh storage eksternal.
+            $table->mediumText('file_isi');
             $table->timestamps();
+
+            $table->unique('peserta_id');
         });
     }
 

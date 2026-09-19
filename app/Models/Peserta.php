@@ -49,7 +49,7 @@ class Peserta extends Model
 
     public function pembayaran(): HasOne
     {
-        return $this->hasOne(Pembayaran::class);
+        return $this->hasOne(Pembayaran::class)->select(Pembayaran::KOLOM_RINGKAS);
     }
 
     public function verifikator(): BelongsTo

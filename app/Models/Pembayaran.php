@@ -18,11 +18,33 @@ class Pembayaran extends Model
         'bank_pengirim',
         'nominal',
         'tanggal_transfer',
-        'file_bukti',
+        'file_nama',
+        'file_mime',
+        'file_ukuran',
+        'file_isi',
     ];
+
+    protected $hidden = ['file_isi'];
 
     protected $casts = [
         'tanggal_transfer' => 'date',
+    ];
+
+    /**
+     * Kolom tanpa isi berkas, dipakai untuk kueri daftar agar hemat memori.
+     */
+    public const KOLOM_RINGKAS = [
+        'id',
+        'peserta_id',
+        'nama_pengirim',
+        'bank_pengirim',
+        'nominal',
+        'tanggal_transfer',
+        'file_nama',
+        'file_mime',
+        'file_ukuran',
+        'created_at',
+        'updated_at',
     ];
 
     public function peserta(): BelongsTo

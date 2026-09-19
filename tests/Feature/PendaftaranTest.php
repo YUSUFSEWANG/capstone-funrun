@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Pembayaran;
 use App\Models\Pengaturan;
 use App\Models\Peserta;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class PendaftaranTest extends TestCase
@@ -41,6 +41,17 @@ class PendaftaranTest extends TestCase
             'kontak_darurat_hp' => '081200000000',
             'setuju' => '1',
         ], $ganti);
+    }
+
+    /**
+     * UploadedFile::fake()->create() menghasilkan berkas kosong, jadi isinya ditulis manual.
+     */
+    private function fileBukti(string $nama = 'bukti.jpg', string $mime = 'image/jpeg'): UploadedFile
+    {
+        $file = UploadedFile::fake()->create($nama, 200, $mime);
+        file_put_contents($file->getPathname(), random_bytes(2048));
+
+        return $file;
     }
 
     public function test_peserta_dapat_mendaftar_dan_mendapat_kode(): void
@@ -95,8 +106,6 @@ class PendaftaranTest extends TestCase
 
     public function test_upload_bukti_mengubah_status(): void
     {
-        Storage::fake('private');
-
         $this->post(route('pendaftaran.store'), $this->dataPeserta());
         $peserta = Peserta::first();
 
@@ -105,19 +114,19 @@ class PendaftaranTest extends TestCase
             'bank_pengirim' => 'BRI',
             'nominal' => 120000,
             'tanggal_transfer' => now()->format('Y-m-d'),
-            'file_bukti' => UploadedFile::fake()->create('bukti.jpg', 200, 'image/jpeg'),
+            'file_bukti' => $this->fileBukti(),
         ])->assertRedirect();
 
         $peserta->refresh();
+        $berkas = Pembayaran::where('peserta_id', $peserta->id)->first();
 
         $this->assertSame('menunggu_verifikasi', $peserta->status);
-        Storage::disk('private')->assertExists($peserta->pembayaran->file_bukti);
+        $this->assertSame('image/jpeg', $berkas->file_mime);
+        $this->assertNotEmpty($berkas->file_isi);
     }
 
     public function test_file_bukti_selain_gambar_atau_pdf_ditolak(): void
     {
-        Storage::fake('private');
-
         $this->post(route('pendaftaran.store'), $this->dataPeserta());
         $peserta = Peserta::first();
 
@@ -133,8 +142,6 @@ class PendaftaranTest extends TestCase
 
     public function test_admin_dapat_memverifikasi_dan_peserta_mengunduh_tiket(): void
     {
-        Storage::fake('private');
-
         $this->post(route('pendaftaran.store'), $this->dataPeserta());
         $peserta = Peserta::first();
 
@@ -142,7 +149,7 @@ class PendaftaranTest extends TestCase
             'nama_pengirim' => 'Andi Saputra',
             'nominal' => 120000,
             'tanggal_transfer' => now()->format('Y-m-d'),
-            'file_bukti' => UploadedFile::fake()->create('bukti.jpg', 200, 'image/jpeg'),
+            'file_bukti' => $this->fileBukti(),
         ]);
 
         $admin = User::factory()->create();
@@ -176,8 +183,6 @@ class PendaftaranTest extends TestCase
 
     public function test_bukti_pembayaran_hanya_dapat_dibuka_admin(): void
     {
-        Storage::fake(config('funrun.disk_bukti'));
-
         $this->post(route('pendaftaran.store'), $this->dataPeserta());
         $peserta = Peserta::first();
 
@@ -185,14 +190,15 @@ class PendaftaranTest extends TestCase
             'nama_pengirim' => 'Andi Saputra',
             'nominal' => 120000,
             'tanggal_transfer' => now()->format('Y-m-d'),
-            'file_bukti' => UploadedFile::fake()->create('bukti.jpg', 200, 'image/jpeg'),
+            'file_bukti' => $this->fileBukti(),
         ]);
 
         $this->get(route('admin.peserta.bukti', $peserta))->assertRedirect(route('admin.login'));
 
         $this->actingAs(User::factory()->create())
             ->get(route('admin.peserta.bukti', $peserta))
-            ->assertOk();
+            ->assertOk()
+            ->assertHeader('content-type', 'image/jpeg');
     }
 
     public function test_cek_pendaftaran_menemukan_peserta(): void

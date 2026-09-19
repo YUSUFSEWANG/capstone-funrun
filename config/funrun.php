@@ -33,7 +33,4 @@ return [
         'max_kb' => (int) env('UPLOAD_MAX_KB', 5120),
         'mime' => ['jpg', 'jpeg', 'png', 'pdf'],
     ],
-
-    // Serverless (Vercel) tidak punya penyimpanan permanen: set DISK_BUKTI=s3.
-    'disk_bukti' => env('DISK_BUKTI', 'private'),
 ];

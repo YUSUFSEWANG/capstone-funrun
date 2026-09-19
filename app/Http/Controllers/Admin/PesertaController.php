@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pembayaran;
 use App\Models\Peserta;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -62,26 +63,23 @@ class PesertaController extends Controller
         return back()->with('sukses', 'Pendaftaran ditandai ditolak. Silakan informasikan peserta melalui WhatsApp.');
     }
 
-    public function bukti(Peserta $peserta): StreamedResponse
+    public function bukti(Peserta $peserta): Response
     {
-        abort_unless($peserta->pembayaran, 404);
+        $berkas = Pembayaran::where('peserta_id', $peserta->id)
+            ->first(['file_nama', 'file_mime', 'file_isi']);
 
-        $disk = Storage::disk(config('funrun.disk_bukti'));
-        $path = $peserta->pembayaran->file_bukti;
+        abort_unless($berkas, 404);
 
-        abort_unless($disk->exists($path), 404);
-
-        return $disk->response($path);
+        return response(base64_decode($berkas->file_isi, true), 200, [
+            'Content-Type' => $berkas->file_mime,
+            'Content-Disposition' => 'inline; filename="' . $berkas->file_nama . '"',
+            'X-Content-Type-Options' => 'nosniff',
+            'Content-Security-Policy' => "default-src 'none'; img-src 'self'",
+        ]);
     }
 
     public function destroy(Peserta $peserta): RedirectResponse
     {
-        $disk = Storage::disk(config('funrun.disk_bukti'));
-
-        if ($peserta->pembayaran && $disk->exists($peserta->pembayaran->file_bukti)) {
-            $disk->delete($peserta->pembayaran->file_bukti);
-        }
-
         $peserta->delete();
 
         return redirect()->route('admin.peserta.index')->with('sukses', 'Data peserta dihapus.');

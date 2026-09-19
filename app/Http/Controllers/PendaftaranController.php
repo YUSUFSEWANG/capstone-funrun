@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BuktiBayarRequest;
 use App\Http\Requests\PendaftaranRequest;
+use App\Models\Pembayaran;
 use App\Models\Pengaturan;
 use App\Models\Peserta;
 use App\Services\PendaftaranService;
@@ -12,7 +13,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class PendaftaranController extends Controller
 {
@@ -85,21 +85,27 @@ class PendaftaranController extends Controller
         }
 
         $data = $request->validated();
-        $disk = config('funrun.disk_bukti');
+        $file = $request->file('file_bukti');
+        $ekstensi = strtolower((string) $file->extension());
 
-        DB::transaction(function () use ($peserta, $data, $request, $disk) {
-            $path = $request->file('file_bukti')->store('bukti', $disk);
+        // Tipe konten ditentukan dari hasil deteksi server, bukan dari nama berkas kiriman peserta.
+        $mime = match ($ekstensi) {
+            'jpg', 'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'pdf' => 'application/pdf',
+            default => 'application/octet-stream',
+        };
 
-            if ($peserta->pembayaran && Storage::disk($disk)->exists($peserta->pembayaran->file_bukti)) {
-                Storage::disk($disk)->delete($peserta->pembayaran->file_bukti);
-            }
-
-            $peserta->pembayaran()->updateOrCreate([], [
+        DB::transaction(function () use ($peserta, $data, $file, $ekstensi, $mime) {
+            Pembayaran::updateOrCreate(['peserta_id' => $peserta->id], [
                 'nama_pengirim' => $data['nama_pengirim'],
                 'bank_pengirim' => $data['bank_pengirim'] ?? null,
                 'nominal' => $data['nominal'],
                 'tanggal_transfer' => $data['tanggal_transfer'],
-                'file_bukti' => $path,
+                'file_nama' => 'bukti-' . $peserta->kode_daftar . '.' . $ekstensi,
+                'file_mime' => $mime,
+                'file_ukuran' => (int) $file->getSize(),
+                'file_isi' => base64_encode((string) $file->get()),
             ]);
 
             $peserta->update([
