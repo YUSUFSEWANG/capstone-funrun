@@ -14,7 +14,7 @@
         <div class="absolute -left-24 top-10 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
         <div class="absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-merah-500/30 blur-3xl"></div>
 
-        <div class="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-2 lg:py-24">
+        <div class="relative mx-auto grid max-w-7xl gap-10 px-4 pb-24 pt-16 lg:grid-cols-2 lg:pb-32 lg:pt-24">
             <div>
                 <span class="badge bg-merah-500 text-white">Jangan Lewatkan Kesempatan Ini!</span>
                 <h1 class="mt-4 font-display text-5xl font-black italic leading-none drop-shadow-sm md:text-6xl">
@@ -71,18 +71,18 @@
     </section>
 
     {{-- BENEFIT --}}
-    <section class="mx-auto -mt-8 max-w-7xl px-4">
-        <div class="card">
-            <div class="mb-5 flex items-center gap-3">
-                <span class="badge bg-merah-500 text-white">BENEFIT</span>
-                <h2 class="font-display text-xl italic text-navy-700">Yang Peserta Dapatkan</h2>
+    <section class="relative z-10 mx-auto -mt-12 max-w-7xl px-4">
+        <div class="card p-6 md:p-8">
+            <div class="mb-6 flex flex-wrap items-center gap-3">
+                <span class="badge bg-merah-500 px-4 py-1.5 text-white">BENEFIT</span>
+                <h2 class="font-display text-xl italic text-navy-700 md:text-2xl">Yang Peserta Dapatkan</h2>
             </div>
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach (config('funrun.benefit') as $i => $benefit)
-                    <div class="rounded-xl border border-navy-100 bg-krem p-4">
-                        <span class="badge bg-navy-700 text-white">{{ $i + 1 }}</span>
-                        <h3 class="mt-2 text-lg text-navy-700">{{ $benefit['judul'] }}</h3>
-                        <p class="mt-1 text-sm text-navy-900/70">{{ $benefit['ket'] }}</p>
+                    <div class="flex h-full flex-col rounded-xl border border-navy-100 bg-krem p-5">
+                        <span class="badge h-7 w-7 justify-center bg-navy-700 p-0 text-white">{{ $i + 1 }}</span>
+                        <h3 class="mt-3 text-lg leading-snug text-navy-700">{{ $benefit['judul'] }}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-navy-900/70">{{ $benefit['ket'] }}</p>
                     </div>
                 @endforeach
             </div>
@@ -90,7 +90,7 @@
     </section>
 
     {{-- INFO UTAMA --}}
-    <section class="mx-auto mt-8 max-w-7xl px-4">
+    <section class="mx-auto mt-6 max-w-7xl px-4">
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div class="card">
                 <p class="text-sm font-semibold text-navy-900/60">Jarak Tempuh</p>
