@@ -1,0 +1,15 @@
+node_modules
+tests
+railway
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+storage/app/private
+.git
+.github
+.vscode
+.env
+.env.example
+phpunit.xml
+README.md

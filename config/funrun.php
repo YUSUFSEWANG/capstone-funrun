@@ -29,10 +29,11 @@ return [
     ],
 
     'upload' => [
+        // Vercel membatasi body request 4,5 MB; sesuaikan lewat UPLOAD_MAX_KB.
         'max_kb' => (int) env('UPLOAD_MAX_KB', 5120),
         'mime' => ['jpg', 'jpeg', 'png', 'pdf'],
     ],
 
-    // Disk penyimpanan bukti pembayaran; di Railway arahkan Volume ke storage/app/private.
+    // Serverless (Vercel) tidak punya penyimpanan permanen: set DISK_BUKTI=s3.
     'disk_bukti' => env('DISK_BUKTI', 'private'),
 ];
