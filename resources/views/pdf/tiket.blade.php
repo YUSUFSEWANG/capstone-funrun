@@ -10,6 +10,8 @@
         .head { background: #12397c; color: #fff; padding: 12px 16px; border-radius: 6px; }
         .head h1 { margin: 0; font-size: 18px; font-style: italic; }
         .head p { margin: 3px 0 0; font-size: 10px; color: #cfe0ff; }
+        .head td { padding: 0; vertical-align: middle; }
+        .head img { width: 46px; height: 46px; }
         .bib { text-align: center; border: 2px dashed #e4322b; border-radius: 8px; padding: 8px; }
         .bib span { display: block; font-size: 9px; color: #666; letter-spacing: 2px; }
         .bib strong { font-size: 17px; color: #e4322b; letter-spacing: 0.5px; }
@@ -21,11 +23,23 @@
     </style>
 </head>
 <body>
+    @php
+        $berkasLogo = public_path('img/logo-pgri.jpg');
+        $logo = is_file($berkasLogo) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($berkasLogo)) : null;
+    @endphp
+
     <div class="tiket">
-        <div class="head">
-            <h1>{{ config('funrun.nama') }}</h1>
-            <p>{{ config('funrun.tagline') }}</p>
-        </div>
+        <table class="head">
+            <tr>
+                @if ($logo)
+                    <td style="width:56px"><img src="{{ $logo }}" alt="PGRI"></td>
+                @endif
+                <td>
+                    <h1>{{ config('funrun.nama') }}</h1>
+                    <p>{{ config('funrun.tagline') }}</p>
+                </td>
+            </tr>
+        </table>
 
         <table>
             <tr>

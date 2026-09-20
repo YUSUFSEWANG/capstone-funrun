@@ -14,7 +14,7 @@
     <header x-data="{ buka: false }" class="sticky top-0 z-50 border-b border-navy-100 bg-white/95 backdrop-blur">
         <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
             <a href="{{ route('beranda') }}" class="flex items-center gap-3">
-                <span class="grid h-11 w-11 place-items-center rounded-full bg-navy-700 font-display text-sm font-black text-white">FR</span>
+                <img src="{{ asset('img/logo-pgri.png') }}" alt="Logo PGRI" class="h-11 w-11 object-contain">
                 <span class="leading-tight">
                     <span class="block font-display text-base font-extrabold italic text-merah-500">FUN RUN</span>
                     <span class="block font-display text-sm font-bold text-navy-700">PGRI TOMINI 2026</span>
@@ -83,7 +83,10 @@
     <footer class="mt-16 bg-navy-800 text-white">
         <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-3">
             <div>
-                <h3 class="font-display text-lg italic">{{ config('funrun.nama') }}</h3>
+                <div class="flex items-center gap-3">
+                    <img src="{{ asset('img/logo-pgri.png') }}" alt="Logo PGRI" class="h-12 w-12 shrink-0 object-contain">
+                    <h3 class="font-display text-lg italic">{{ config('funrun.nama') }}</h3>
+                </div>
                 <p class="mt-2 text-sm text-white/70">{{ config('funrun.tagline') }}</p>
             </div>
             <div class="text-sm text-white/80">

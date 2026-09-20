@@ -11,9 +11,12 @@
 <body class="min-h-screen bg-krem">
     <div class="flex min-h-screen">
         <aside class="hidden w-64 shrink-0 bg-navy-800 text-white lg:block">
-            <div class="px-6 py-6">
-                <p class="font-display text-lg font-black italic text-merah-400">FUN RUN</p>
-                <p class="text-sm font-semibold">PGRI TOMINI 2026</p>
+            <div class="flex items-center gap-3 px-6 py-6">
+                <img src="{{ asset('img/logo-pgri.png') }}" alt="Logo PGRI" class="h-10 w-10 shrink-0 object-contain">
+                <div>
+                    <p class="font-display text-lg font-black italic text-merah-400">FUN RUN</p>
+                    <p class="text-sm font-semibold">PGRI TOMINI 2026</p>
+                </div>
             </div>
             <nav class="space-y-1 px-3">
                 @foreach ([

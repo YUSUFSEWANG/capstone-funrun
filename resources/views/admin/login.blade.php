@@ -11,6 +11,7 @@
 <body class="grid min-h-screen place-items-center bg-gradient-to-br from-langit-400 to-navy-700 p-4">
     <div class="w-full max-w-md">
         <div class="mb-6 text-center text-white">
+            <img src="{{ asset('img/logo-pgri.png') }}" alt="Logo PGRI" class="mx-auto mb-3 h-20 w-20 object-contain">
             <p class="font-display text-3xl font-black italic text-merah-400">FUN RUN</p>
             <p class="font-display text-lg font-bold">PGRI TOMINI 2026</p>
         </div>
