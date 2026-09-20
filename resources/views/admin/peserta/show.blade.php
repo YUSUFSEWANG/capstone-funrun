@@ -5,7 +5,7 @@
 @section('konten')
     @php
         $pesanTerverifikasi = "Halo {$peserta->nama_lengkap}, pendaftaran Anda pada " . config('funrun.nama')
-            . " telah TERVERIFIKASI.\nKode: {$peserta->kode_daftar}\nNo. BIB: {$peserta->no_bib}\n"
+            . " telah TERVERIFIKASI.\nKode: {$peserta->kode_daftar}\nNomor Peserta: {$peserta->no_bib}\n"
             . ($peserta->ukuran_jersey ? "Ukuran Jersey: {$peserta->ukuran_jersey}\n" : '')
             . "E-ticket: " . route('pendaftaran.show', $peserta->kode_daftar)
             . "\nSampai jumpa di garis start!";
@@ -33,7 +33,7 @@
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <h2 class="text-2xl text-navy-700">{{ $peserta->nama_lengkap }}</h2>
-                    <p class="text-sm text-navy-900/60">{{ $peserta->kode_daftar }} &middot; BIB {{ $peserta->no_bib }}</p>
+                    <p class="text-sm text-navy-900/60">{{ $peserta->kode_daftar }} &middot; {{ $peserta->no_bib }}</p>
                 </div>
                 <span class="badge {{ $peserta->warna_status }}">{{ $peserta->label_status }}</span>
             </div>

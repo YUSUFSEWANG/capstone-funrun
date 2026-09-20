@@ -12,7 +12,7 @@
         .head p { margin: 3px 0 0; font-size: 10px; color: #cfe0ff; }
         .bib { text-align: center; border: 2px dashed #e4322b; border-radius: 8px; padding: 8px; }
         .bib span { display: block; font-size: 9px; color: #666; letter-spacing: 2px; }
-        .bib strong { font-size: 34px; color: #e4322b; }
+        .bib strong { font-size: 17px; color: #e4322b; letter-spacing: 0.5px; }
         table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 11px; }
         td { padding: 4px 6px; vertical-align: top; }
         td.k { color: #666; width: 34%; }
@@ -42,7 +42,7 @@
                 </td>
                 <td>
                     <div class="bib">
-                        <span>NOMOR BIB</span>
+                        <span>NOMOR PESERTA</span>
                         <strong>{{ $peserta->no_bib }}</strong>
                     </div>
                     <table>

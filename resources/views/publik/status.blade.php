@@ -43,7 +43,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <h2 class="text-2xl text-navy-700">{{ $peserta->nama_lengkap }}</h2>
-                    <p class="text-sm text-navy-900/60">No. BIB {{ $peserta->no_bib }} &middot; {{ $peserta->label_paket }}</p>
+                    <p class="text-sm text-navy-900/60">{{ $peserta->no_bib }} &middot; {{ $peserta->label_paket }}</p>
                 </div>
                 <span class="badge {{ $peserta->warna_status }}">{{ $peserta->label_status }}</span>
             </div>

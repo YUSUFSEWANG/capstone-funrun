@@ -8,7 +8,7 @@
             <div class="md:col-span-2">
                 <label class="label" for="cari">Cari</label>
                 <input id="cari" name="cari" type="text" class="input" maxlength="60"
-                       placeholder="Nama / kode / BIB / No. HP" value="{{ $filter['cari'] ?? '' }}">
+                       placeholder="Nama / kode / nomor peserta / No. HP" value="{{ $filter['cari'] ?? '' }}">
             </div>
             <div>
                 <label class="label" for="status">Status</label>
@@ -69,7 +69,7 @@
 
                 <x-konfirmasi
                     judul="Hapus SEMUA Data Peserta"
-                    pesan="Seluruh data peserta dan bukti pembayaran akan dihapus permanen. Kuota dan stok jersey kembali penuh, nomor BIB mulai lagi dari 1001. Tindakan ini tidak dapat dibatalkan."
+                    pesan="Seluruh data peserta dan bukti pembayaran akan dihapus permanen. Kuota dan stok jersey kembali penuh, nomor peserta mulai lagi dari PGRI-TOMINI-001. Tindakan ini tidak dapat dibatalkan."
                     label="Hapus Semua Data"
                     kelas-tombol="btn border-2 border-merah-500 px-5 py-2 text-sm text-merah-600 hover:bg-merah-500 hover:text-white"
                     label-konfirmasi="Hapus Semua"
@@ -92,7 +92,7 @@
                                     :checked="semua.length > 0 && terpilih.length === semua.length"
                                     aria-label="Pilih semua peserta di halaman ini">
                             </th>
-                            <th class="py-2 pr-3">BIB</th>
+                            <th class="py-2 pr-3">No. Peserta</th>
                             <th class="py-2 pr-3">Nama</th>
                             <th class="py-2 pr-3">Kontak</th>
                             <th class="py-2 pr-3">Paket</th>

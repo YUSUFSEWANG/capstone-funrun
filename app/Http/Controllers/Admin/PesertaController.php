@@ -108,7 +108,7 @@ class PesertaController extends Controller
         Peserta::query()->delete();
 
         return redirect()->route('admin.peserta.index')
-            ->with('sukses', 'Seluruh data peserta (' . $jumlah . ') telah dihapus. Nomor BIB kembali mulai dari 1001.');
+            ->with('sukses', 'Seluruh data peserta (' . $jumlah . ') telah dihapus. Nomor peserta kembali mulai dari PGRI-TOMINI-001.');
     }
 
     public function export(Request $request): StreamedResponse
@@ -121,7 +121,7 @@ class PesertaController extends Controller
             fwrite($keluaran, "\xEF\xBB\xBF"); // BOM agar Excel membaca UTF-8
 
             fputcsv($keluaran, [
-                'No BIB', 'Kode Daftar', 'Nama Lengkap', 'JK', 'Tanggal Lahir', 'No HP',
+                'No Peserta', 'Kode Daftar', 'Nama Lengkap', 'JK', 'Tanggal Lahir', 'No HP',
                 'Email', 'Asal Instansi', 'Alamat', 'Paket', 'Ukuran Jersey', 'Biaya',
                 'Status', 'Kontak Darurat', 'HP Darurat', 'Riwayat Penyakit',
                 'Nama Pengirim', 'Nominal Transfer', 'Tanggal Transfer', 'Tanggal Daftar',
