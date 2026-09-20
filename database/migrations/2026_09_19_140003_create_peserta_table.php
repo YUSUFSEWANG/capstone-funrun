@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('peserta', function (Blueprint $table) {
             $table->id();
             $table->string('kode_daftar', 20)->unique();
-            $table->string('no_bib', 10)->unique();
+            $table->string('no_bib', 20)->unique();
             $table->string('nama_lengkap', 120);
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->date('tanggal_lahir');

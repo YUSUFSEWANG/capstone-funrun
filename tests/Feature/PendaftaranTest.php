@@ -64,6 +64,7 @@ class PendaftaranTest extends TestCase
         $this->assertNotNull($peserta);
         $this->assertSame('menunggu_bayar', $peserta->status);
         $this->assertSame(120000, $peserta->biaya);
+        $this->assertSame('PGRI-001', $peserta->no_bib);
         $this->assertStringStartsWith('FR26-', $peserta->kode_daftar);
     }
 

@@ -129,8 +129,13 @@ class PendaftaranService
 
     public function buatNoBib(): string
     {
-        $terakhir = (int) Peserta::max('id');
+        $urutan = Peserta::count() + 1;
 
-        return str_pad((string) (1000 + $terakhir + 1), 4, '0', STR_PAD_LEFT);
+        do {
+            $bib = 'PGRI-' . str_pad((string) $urutan, 3, '0', STR_PAD_LEFT);
+            $urutan++;
+        } while (Peserta::where('no_bib', $bib)->exists());
+
+        return $bib;
     }
 }
