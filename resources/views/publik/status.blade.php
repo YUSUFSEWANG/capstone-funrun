@@ -85,7 +85,10 @@
         <section class="mx-auto mt-4 max-w-4xl px-4">
             <div class="card border-l-4 border-emerald-500">
                 <h2 class="text-xl text-emerald-700">Pembayaran Terverifikasi</h2>
-                <p class="mt-1 text-sm text-navy-900/70">Selamat! Anda resmi terdaftar sebagai peserta. Unduh e-ticket dan tunjukkan saat pengambilan race pack.</p>
+                <p class="mt-1 text-sm text-navy-900/70">
+                    Selamat! Anda resmi terdaftar sebagai peserta. Unduh e-ticket Anda, lalu tunjukkan saat
+                    <strong>pengambilan jersey dan nomor peserta</strong> — boleh dicetak atau ditampilkan dari layar HP.
+                </p>
                 <a href="{{ route('pendaftaran.tiket', $peserta->kode_daftar) }}" class="btn-navy mt-4">Unduh E-Ticket (PDF)</a>
             </div>
         </section>

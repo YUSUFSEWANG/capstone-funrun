@@ -4,20 +4,26 @@
 
 @section('konten')
     @php
+        $tautanTiket = route('pendaftaran.show', $peserta->kode_daftar);
+
         $pesanTerverifikasi = "Halo {$peserta->nama_lengkap}, pendaftaran Anda pada " . config('funrun.nama')
-            . " telah TERVERIFIKASI.\nKode: {$peserta->kode_daftar}\nNomor Peserta: {$peserta->no_bib}\n"
+            . " telah TERVERIFIKASI.\n\n"
+            . "Kode: {$peserta->kode_daftar}\n"
+            . "Nomor Peserta: {$peserta->no_bib}\n"
             . ($peserta->ukuran_jersey ? "Ukuran Jersey: {$peserta->ukuran_jersey}\n" : '')
-            . "E-ticket: " . route('pendaftaran.show', $peserta->kode_daftar)
+            . "\nSilakan unduh e-ticket Anda di:\n{$tautanTiket}\n"
+            . "E-ticket WAJIB ditunjukkan (dicetak atau dari layar HP) saat pengambilan jersey dan nomor peserta.\n"
+            . ($linkGrupWa ? "\nGabung grup WhatsApp peserta untuk informasi teknis kegiatan:\n{$linkGrupWa}\n" : '')
             . "\nSampai jumpa di garis start!";
 
         $pesanMenunggu = "Halo {$peserta->nama_lengkap}, pendaftaran Anda pada " . config('funrun.nama')
             . " sudah kami terima dengan kode {$peserta->kode_daftar}.\nMohon lakukan pembayaran Rp"
             . number_format($peserta->biaya, 0, ',', '.') . " ke " . config('funrun.bank.nama') . " "
             . config('funrun.bank.rekening') . " a.n. " . config('funrun.bank.atas_nama')
-            . ", lalu unggah bukti di: " . route('pendaftaran.show', $peserta->kode_daftar);
+            . ", lalu unggah bukti di: " . $tautanTiket;
 
         $pesanDitolak = "Halo {$peserta->nama_lengkap}, mohon maaf bukti pembayaran Anda belum dapat kami verifikasi.\nCatatan: "
-            . ($peserta->catatan_admin ?: '-') . "\nSilakan unggah ulang di: " . route('pendaftaran.show', $peserta->kode_daftar);
+            . ($peserta->catatan_admin ?: '-') . "\nSilakan unggah ulang di: " . $tautanTiket;
 
         $pesanWa = match ($peserta->status) {
             'terverifikasi' => $pesanTerverifikasi,

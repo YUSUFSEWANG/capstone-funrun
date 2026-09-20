@@ -55,8 +55,8 @@
         </table>
 
         <div class="foot">
-            Tunjukkan e-ticket ini saat pengambilan race pack. Verifikasi pada
-            {{ optional($peserta->verified_at)->translatedFormat('d F Y H:i') }} WITA.
+            <strong>WAJIB:</strong> tunjukkan e-ticket ini (cetak atau dari layar HP) saat pengambilan jersey dan nomor peserta.
+            Verifikasi pada {{ optional($peserta->verified_at)->translatedFormat('d F Y H:i') }} WITA.
             Informasi: {{ config('funrun.kontak.0.nama') }} {{ config('funrun.kontak.0.hp') }} /
             {{ config('funrun.kontak.1.nama') }} {{ config('funrun.kontak.1.hp') }}.
         </div>

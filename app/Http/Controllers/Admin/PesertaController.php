@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
+use App\Models\Pengaturan;
 use App\Models\Peserta;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -28,7 +29,10 @@ class PesertaController extends Controller
     {
         $peserta->load('pembayaran', 'verifikator');
 
-        return view('admin.peserta.show', ['peserta' => $peserta]);
+        return view('admin.peserta.show', [
+            'peserta' => $peserta,
+            'linkGrupWa' => Pengaturan::get('link_grup_wa'),
+        ]);
     }
 
     public function verifikasi(Peserta $peserta): RedirectResponse
