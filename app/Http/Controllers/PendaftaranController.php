@@ -62,8 +62,7 @@ class PendaftaranController extends Controller
 
         return redirect()
             ->route('pendaftaran.show', $peserta->kode_daftar)
-            ->with('sukses', 'Pendaftaran berhasil! Simpan kode pendaftaran Anda dan lanjutkan pembayaran.')
-            ->with('tampilkan_grup', true);
+            ->with('sukses', 'Pendaftaran berhasil! Simpan kode pendaftaran Anda dan lanjutkan pembayaran.');
     }
 
     public function show(string $kode): View
@@ -116,7 +115,8 @@ class PendaftaranController extends Controller
 
         return redirect()
             ->route('pendaftaran.show', $peserta->kode_daftar)
-            ->with('sukses', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi panitia.');
+            ->with('sukses', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi panitia.')
+            ->with('tampilkan_grup', true);
     }
 
     public function tiket(string $kode): Response

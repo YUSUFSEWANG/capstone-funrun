@@ -211,14 +211,25 @@ class PendaftaranTest extends TestCase
             ->assertSee($peserta->nama_lengkap);
     }
 
-    public function test_link_grup_whatsapp_muncul_setelah_pendaftaran(): void
+    public function test_link_grup_whatsapp_muncul_setelah_bukti_bayar_diunggah(): void
     {
         Pengaturan::set('link_grup_wa', 'https://chat.whatsapp.com/ABC123xyz');
 
-        $this->post(route('pendaftaran.store'), $this->dataPeserta())
-            ->assertSessionHas('tampilkan_grup', true);
+        $this->post(route('pendaftaran.store'), $this->dataPeserta());
+        $peserta = Peserta::first();
 
-        $this->get(route('pendaftaran.show', Peserta::first()->kode_daftar))
+        $this->get(route('pendaftaran.show', $peserta->kode_daftar))
+            ->assertOk()
+            ->assertDontSee('https://chat.whatsapp.com/ABC123xyz', false);
+
+        $this->post(route('pendaftaran.bukti', $peserta->kode_daftar), [
+            'nama_pengirim' => 'Andi Saputra',
+            'nominal' => 120000,
+            'tanggal_transfer' => now()->format('Y-m-d'),
+            'file_bukti' => $this->fileBukti(),
+        ])->assertSessionHas('tampilkan_grup', true);
+
+        $this->get(route('pendaftaran.show', $peserta->kode_daftar))
             ->assertOk()
             ->assertSee('https://chat.whatsapp.com/ABC123xyz', false);
     }

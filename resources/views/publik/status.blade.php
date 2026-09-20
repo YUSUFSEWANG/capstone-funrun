@@ -3,15 +3,20 @@
 @section('judul', 'Status Pendaftaran')
 
 @section('konten')
-    @if ($linkGrupWa)
+    @php
+        // Grup WhatsApp hanya ditawarkan setelah peserta mengunggah bukti pembayaran.
+        $bolehGabungGrup = $linkGrupWa && in_array($peserta->status, ['menunggu_verifikasi', 'terverifikasi'], true);
+    @endphp
+
+    @if ($bolehGabungGrup)
         <div x-data="{ buka: {{ session('tampilkan_grup') ? 'true' : 'false' }} }" x-cloak>
             <div x-show="buka" class="fixed inset-0 z-[60] grid place-items-center bg-navy-900/60 p-4" @keydown.escape.window="buka = false">
                 <div class="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-card" @click.outside="buka = false">
                     <span class="grid mx-auto h-14 w-14 place-items-center rounded-full bg-emerald-500 text-xl font-black text-white">WA</span>
-                    <h2 class="mt-4 text-2xl text-navy-700">Data Anda Sudah Terkirim!</h2>
+                    <h2 class="mt-4 text-2xl text-navy-700">Pembayaran Terkirim!</h2>
                     <p class="mt-2 text-sm text-navy-900/70">
-                        Silakan bergabung ke grup WhatsApp peserta untuk menerima informasi teknis,
-                        pengumuman, dan konfirmasi pembayaran.
+                        Pendaftaran dan bukti pembayaran Anda sudah kami terima. Silakan bergabung ke grup WhatsApp
+                        peserta untuk menerima informasi teknis, pengumuman, dan konfirmasi dari panitia.
                     </p>
                     <a href="{{ $linkGrupWa }}" target="_blank" rel="noopener"
                        class="btn mt-5 w-full bg-emerald-500 text-white hover:bg-emerald-600">
@@ -54,7 +59,7 @@
         </div>
     </section>
 
-    @if ($linkGrupWa)
+    @if ($bolehGabungGrup)
         <section class="mx-auto mt-4 max-w-4xl px-4">
             <div class="card flex flex-wrap items-center justify-between gap-3 border-l-4 border-emerald-500">
                 <div>
