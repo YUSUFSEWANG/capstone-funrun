@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     /**
-     * Ubah nomor BIB dari format 1001 menjadi PGRI-001 tanpa menghapus data peserta.
+     * Ubah nomor BIB dari format 1001 menjadi PGRI-TOMINI-001 tanpa menghapus data peserta.
      */
     public function up(): void
     {
@@ -18,7 +18,7 @@ return new class extends Migration
 
         foreach (DB::table('peserta')->orderBy('id')->pluck('id') as $id) {
             DB::table('peserta')->where('id', $id)->update([
-                'no_bib' => 'PGRI-' . str_pad((string) $urutan, 3, '0', STR_PAD_LEFT),
+                'no_bib' => 'PGRI-TOMINI-' . str_pad((string) $urutan, 3, '0', STR_PAD_LEFT),
             ]);
 
             $urutan++;

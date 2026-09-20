@@ -132,7 +132,7 @@ class PendaftaranService
         $urutan = Peserta::count() + 1;
 
         do {
-            $bib = 'PGRI-' . str_pad((string) $urutan, 3, '0', STR_PAD_LEFT);
+            $bib = 'PGRI-TOMINI-' . str_pad((string) $urutan, 3, '0', STR_PAD_LEFT);
             $urutan++;
         } while (Peserta::where('no_bib', $bib)->exists());
 
