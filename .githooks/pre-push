@@ -1,0 +1,10 @@
+#!/bin/sh
+# Jalankan pengujian sebelum push agar kode rusak tidak sampai ke produksi.
+
+echo "==> Menjalankan pengujian (php artisan test)..."
+
+if ! php artisan test; then
+    echo "!! Ada pengujian yang gagal. Push dibatalkan."
+    echo "   Gunakan 'git push --no-verify' hanya bila benar-benar terpaksa."
+    exit 1
+fi

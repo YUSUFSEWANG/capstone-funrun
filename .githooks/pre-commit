@@ -1,0 +1,19 @@
+#!/bin/sh
+# Bangun aset produksi otomatis bila ada perubahan pada tampilan atau konfigurasi frontend.
+
+berubah=$(git diff --cached --name-only --diff-filter=ACMR |
+    grep -E '^(resources/|tailwind\.config\.js|postcss\.config\.js|vite\.config\.js|package\.json|package-lock\.json)')
+
+if [ -z "$berubah" ]; then
+    exit 0
+fi
+
+echo "==> Membangun aset produksi (npm run build)..."
+
+if ! npm run build; then
+    echo "!! Build gagal. Commit dibatalkan."
+    exit 1
+fi
+
+git add public/build
+echo "==> Aset produksi ikut disertakan dalam commit."
