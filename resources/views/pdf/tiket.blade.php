@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>E-Ticket {{ $peserta->kode_daftar }}</title>
     <style>
-        * { font-family: DejaVu Sans, sans-serif; }
+        /* Helvetica sudah tersedia di pembaca PDF sehingga font tidak perlu ikut ditanam. */
+        * { font-family: Helvetica, Arial, sans-serif; }
         body { margin: 0; color: #12397c; }
         .tiket { border: 3px solid #12397c; border-radius: 10px; padding: 18px; }
         .head { background: #12397c; color: #fff; padding: 12px 16px; border-radius: 6px; }
@@ -24,7 +25,8 @@
 </head>
 <body>
     @php
-        $berkasLogo = public_path('img/logo-pgri.jpg');
+        // Versi JPG berlatar biru dipakai agar logo menyatu dengan header tanpa bergantung pada ekstensi gd.
+        $berkasLogo = public_path('img/logo-pgri-tiket.jpg');
         $logo = is_file($berkasLogo) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($berkasLogo)) : null;
     @endphp
 
